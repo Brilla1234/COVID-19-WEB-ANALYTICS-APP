@@ -15,7 +15,7 @@ st.set_page_config(page_title ="My Webpage")  # you can add the argument layout 
 
 
 #INTRODUCE PROJECT COLLABORATORS
- st.write("""
+st.write("""
             This project is an initiative of the Data-Cirle of the Redi School of Digital Integration.
             The project deploys a fully interactive web analytics app using the
             streamlit library and other python dependencies.
