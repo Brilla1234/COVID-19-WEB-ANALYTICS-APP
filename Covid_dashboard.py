@@ -21,18 +21,18 @@ with st.expander("Click to view project members and the goal of this project"):
     with col1:
         #st.markdown(f'<p style="background-color:#0066cc;color:#33ff33;font-size:24px;border-radius:2%;">'great'</p>', unsafe_allow_html=True)
         st.write("Senior Engineer (Nazanin)")
-        image = Image.open('https://github.com/Brilla1234/COVID-19-WEB-ANALYTICS-APP/blob/main/ernest.jpg')
+        image = Image.open(r'C:\Users\Nana\nazanin.jpg')
         st.image(image, use_column_width=True)
 
     with col2:
         st.write("Technical Lead (Ernest)")
-        image = Image.open('https://github.com/Brilla1234/COVID-19-WEB-ANALYTICS-APP/blob/main/ernest.jpg')
+        image = Image.open(r'C:\Users\Nana\ernest.jpg')
         st.image(image,use_column_width=True )
 
 
     with col3:
         st.write("Team Engineer (Rima)")
-        image = Image.open('https://github.com/Brilla1234/COVID-19-WEB-ANALYTICS-APP/blob/main/ernest.jpg')
+        image = Image.open(r'C:\Users\Nana\Reema.jpg')
         st.image(image, use_column_width=True)
 
 
