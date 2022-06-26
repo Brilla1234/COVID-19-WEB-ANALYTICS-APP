@@ -49,7 +49,7 @@ with st.expander("Click to view project members and the goal of this project"):
 
 
 #USE REQUESTS TO PULL ANIMATION FROM LOTTIE WEBSITE
-@st.cache
+@st.experimental_memo
 def load_lottieurl(url):
     r =requests.get(url)
     if r.status_code != 200:
@@ -93,7 +93,7 @@ if check:
     data_load_state.text('Loading data...done!')
 
 
-@st.cache
+@st.experimental_memo
 def convert_df(df):
      # IMPORTANT: Cache the conversion to prevent computation on every rerun
      return df.to_csv().encode('utf-8')
@@ -137,10 +137,9 @@ elif country_box == "USA" and visual_box == "Radar Charts":
     fig = px.line_polar(dff, r='r', theta='theta', line_close=True)
     fig.update_traces(fill='toself')
     st.plotly_chart(fig, use_column_width=True)
-    
-
 
 #VISUALIZATIONS  (Barplots)
+# Define a barplot function:
 with st.container():
     left_col, right_col = st.columns(2)
     with left_col:
@@ -151,26 +150,24 @@ with st.container():
 
 with st.expander("ClICK TO VIEW TOTAL DEATHS BY CONTINENT & COUNTRY"):
     with st.container():
-             fig = px.bar(t_death, y='total_deaths', x='continent', color ='iso_code', title="Total deaths by Continent & Country")
-             st.plotly_chart(fig)
+        @st.experimental_memo(suppress_st_warning=True)
+        def barplot(data,y,x,color, title):
+            fig = px.bar(data, y, x, color, title =title)
+            #return st.plotly_chart(fig)
+            st.plotly_chart(fig)
+        barplot(t_death, t_death["total_deaths"], t_death["continent"], t_death['iso_code'], "Total Deaths by Country")
             
 with st.expander("ClICK TO VIEW TOTAL CASES BY CONTINENT & COUNTRY"):
     with st.container():
-         fig = px.bar(t_case, y='total_cases', x='continent', color ='iso_code', title="Total cases by Continent & Country")
-         st.plotly_chart(fig)
-            
-        
+        barplot(t_case, t_case["total_cases"], t_case["continent"], t_case['iso_code'], "Total cases by country and continent")
                    
 with st.expander("ClICK TO VIEW TOTAL TESTS BY CONTINENT & COUNTRY"):           
     with st.container():
-            fig = px.bar(t_test, x="continent", y="total_tests", color="iso_code", title="Total Tests by Country & Continent")
-            st.plotly_chart(fig)
-        
+         barplot(t_test, t_test["total_tests"], t_test["continent"], t_test['iso_code'], "Total tests by country and continent")
+                   
 with st.expander("ClICK TO VIEW TOTAL VACCINATIONS BY CONTINENT & COUNTRY"):           
     with st.container():
-             fig = px.bar(t_vac, x="continent", y="total_vaccinations", color="iso_code", title="Total Vaccinations by Country & Continent")
-             st.plotly_chart(fig)
-        
+        barplot(t_vac, t_vac["total_vaccinations"], t_vac["continent"], t_vac['iso_code'], "Total vaccinations by country and continent" 
 
 #VISUALIZATIONS  (Geospatial)
 with st.container():
@@ -186,35 +183,31 @@ map = st.radio(
      "CLICK TO CHANGE TO A DIFFERENT MAP",
      ('Map of Total deaths', 'Map of Total Cases', 'Map of Total Tests', 'Map of Total Vaccinations'))
 
+
+@st.experimental_memo(suppress_st_warning=True)
+def map(data,loc,color,pro,scope, title):
+         fig = px.choropleth(data,loc,color,pro,scope,title=title)
+         st.plotly_chart(fig,use_column_width=True)
+            
 if map == 'Map of Total deaths':
-     st.write('Rendering image...')
-     fig = px.choropleth(t_death, locations='iso_code',
-                        projection="cylindrical stereographic",
-                  color='total_deaths', scope ="world", title ="Total Deaths Across the Globe")
-     st.plotly_chart(fig, use_column_width=True)  # Use different map types for the geospatial and put them in columns
-        
+    map(t_death, t_death["iso_code"], t_death['total_deaths'], pro ="cylindrical stereographic", scope ="world", title ="Total Deaths by Country")
+  
+   
 elif map == 'Map of Total Vaccinations':
-    st.write('Rendering image...')
-    fig = px.choropleth(t_vac, locations='iso_code',
-                        projection="cylindrical stereographic",
-                  color='total_vaccinations', scope ="world", title ="Total Vaccinations Across the Globe")
-    st.plotly_chart(fig, use_column_width=True)  # Use different map types for the geospatial and put them in columns
-        
-        
+    map(t_vac, t_vac["iso_code"], t_vac['total_vaccinations'],pro ="cylindrical stereographic",  scope ="world",title= "Total Vaccinations") 
+                
+elif map == 'Map of Total Tests':
+    map(t_test, t_test["iso_code"], t_test['total_tests'],pro ="natural earth", scope ="world",title ="Total Tests") 
+                                
 elif map == 'Map of Total Cases':
-     st.write('Rendering image...')
-     fig = fig = px.scatter_geo(t_case1, locations="iso_code", color="continent",
-                     hover_name="location", size="total_cases",
-                     projection="natural earth")
-     st.plotly_chart(fig, use_column_width=True)  # Use different map types for the geospatial and put them in columns
-        
-elif map == 'Map of Total Tests':    
-     st.write('Rendering image...')
-     fig = px.choropleth(t_test, locations='iso_code',
-                        projection="natural earth",
-                  color='total_tests', scope ="world", title ="Total Tests Across the Globe")
-     st.plotly_chart(fig, use_column_width=True)  # Use different map types for the geospatial and put them in columns
-          
+    @st.experimental_memo(suppress_st_warning=True)
+    def hov(data,loc,color,hov,size,pro):
+         fig = px.scatter_geo(data,loc,color,hov,size,pro)
+         st.plotly_chart(fig,use_column_width=True)
+   hov(t_case1, t_case1["iso_code"], t_case1['continent'], t_case1['location'],t_case1['total_cases'], pro ="natural earth" )   
+
+
+               
 #LINE GRAPHS  ()
 st.write("---") 
 with st.container():
