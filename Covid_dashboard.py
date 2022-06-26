@@ -15,20 +15,14 @@ st.set_page_config(page_title ="My Webpage")  # you can add the argument layout 
 
 
 #INTRODUCE PROJECT COLLABORATORS
-
-
-    st.write("""
-        This project is an initiative of the Data-Cirle of the Redi School of Digital Integration.
-        The project deploys a fully interactive web analytics app using the
-        streamlit library and other python dependencies.
-        The goal is to improve the competence of the team members in designing
-        fully functional interactive web base applications
-     """)
-
-
-
-
-
+ st.write("""
+            This project is an initiative of the Data-Cirle of the Redi School of Digital Integration.
+            The project deploys a fully interactive web analytics app using the
+            streamlit library and other python dependencies.
+            The goal is to improve the competence of the team members in designing
+            fully functional interactive web base applications
+         """)
+    
 #USE REQUESTS TO PULL ANIMATION FROM LOTTIE WEBSITE
 @st.cache
 def load_lottieurl(url):
