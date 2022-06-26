@@ -15,25 +15,6 @@ st.set_page_config(page_title ="My Webpage")  # you can add the argument layout 
 
 
 #INTRODUCE PROJECT COLLABORATORS
-from PIL import Image
-with st.expander("Click to view project members and the goal of this project"):
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        #st.markdown(f'<p style="background-color:#0066cc;color:#33ff33;font-size:24px;border-radius:2%;">'great'</p>', unsafe_allow_html=True)
-        st.write("Senior Engineer (Nazanin)")
-        image = Image.open(r'C:\Users\Nana\nazanin.jpg')
-        st.image(image, use_column_width=True)
-
-    with col2:
-        st.write("Technical Lead (Ernest)")
-        image = Image.open(r'C:\Users\Nana\ernest.jpg')
-        st.image(image,use_column_width=True )
-
-
-    with col3:
-        st.write("Team Engineer (Rima)")
-        image = Image.open(r'C:\Users\Nana\Reema.jpg')
-        st.image(image, use_column_width=True)
 
 
     st.write("""
@@ -60,17 +41,6 @@ st_lottie(lottie, height =100, key ="covid")
 
 
 #INSERT COVID PICTURES
-from PIL import Image
-with st.container():
-    # Create headers
-    st.markdown("<h1 style='text-align: center; color: green;'>COVID-19 Live Interactive Dashboard</h1>", unsafe_allow_html=True)
-    left_col, right_col = st.columns(2)
-    with left_col:
-         image = Image.open(r'C:\Users\Nana\analytics.jpg')  # Put r in front of the file directory to be able to call the picture.
-         st.image(image, width = 320)
-    with right_col:
-         image = Image.open(r'C:\Users\Nana\update.jpg')
-         st.image(image, width = 300)
 st.write("This analytics app provides real time updates on Covid-19 incidence around the world with Streamlit")
 
 #DATA EXTRACTION 
