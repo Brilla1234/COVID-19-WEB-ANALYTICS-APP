@@ -1,0 +1,6 @@
+streamlit_lottie
+seaborn
+pandas
+matplotlib
+requests
+plotly.express
